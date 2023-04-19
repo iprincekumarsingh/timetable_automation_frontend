@@ -11,7 +11,7 @@ const RegisterPage = () => {
     useEffect(() => {
         const token = Cookie.get("access_token");
         if (!token) {
-            window.location.href = "/login";    
+            window.location.href = "/login";
         }
 
     }, []);
@@ -25,17 +25,17 @@ const RegisterPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post(API_URL, JSON.stringify({ name, email, phone, password }), {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + Cookie.get("access_token"),
-                },
-            })
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + Cookie.get("access_token"),
+            },
+        })
             .then((res) => {
                 console.log(res);
                 toast(res.data.message)
             })
             .catch((err) => {
-            
+
                 toast.error(err.response.data.message);
             });
     };
@@ -44,7 +44,7 @@ const RegisterPage = () => {
             <ToastContainer />
             <div className="w-full max-w-md space-y-8">
                 <div>
-                    
+
                     <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
                         Add Teacher
                     </h2>
@@ -100,7 +100,7 @@ const RegisterPage = () => {
                             <input
                                 id="email-address"
                                 name="email"
-                                type="text" 
+                                type="text"
                                 autoComplete="email"
                                 required
                                 className="relative block w-full rounded-t-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -130,7 +130,7 @@ const RegisterPage = () => {
                         </div>
                     </div>
 
-                 
+
                     <div>
                         <button
                             type="submit"
@@ -145,7 +145,10 @@ const RegisterPage = () => {
                 </form>
             </div>
         </div>
+
     );
+
 };
+
 
 export default RegisterPage;

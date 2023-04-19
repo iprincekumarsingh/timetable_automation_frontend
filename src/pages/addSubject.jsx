@@ -9,7 +9,7 @@ import { Select } from "flowbite-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const AssignTeacher = () => {
+const CreateSubject = () => {
   useEffect(() => {
     const token = Cookie.get("access_token");
     if (!token) {
@@ -39,21 +39,8 @@ const AssignTeacher = () => {
       .then((res) => {
         // console.log(res);
         setSubjects(res.data.subjects);
+        console.log(res.data.subjects);
         // console.log();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    axios
-      .get("teacher/getsubject/" + e, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + Cookie.get("access_token"),
-        },
-      })
-      .then((res) => {
-        setSubjectTeacher(res.data.user);
       })
       .catch((err) => {
         console.log(err);
@@ -79,35 +66,17 @@ const AssignTeacher = () => {
         console.log(err);
       });
   }, []);
-  useEffect(() => {
-    axios
-      .get("/auth/getTeachers", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + Cookie.get("access_token"),
-        },
-      })
-      .then((res) => {
-        // console.log(res.data.teachers);
-
-        setUser(res.data.teachers);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const data = {
-      user: teacher,
       subject: subject,
       classes: clas,
     };
     // console.log(data);
     axios
-      .post("teacher", data, {
+      .post("subject", data, {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + Cookie.get("access_token"),
@@ -122,6 +91,7 @@ const AssignTeacher = () => {
         toast.error(err.response.data.message);
       });
   };
+
   const deleteSubject = (id) => {
     const confirm = window.confirm(
       "Are you sure you want to delete this subject?"
@@ -130,14 +100,14 @@ const AssignTeacher = () => {
       return;
     }
     axios
-      .delete("teacher/" + id, {
+      .delete("subject/" + id, {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + Cookie.get("access_token"),
         },
       })
       .then((res) => {
-        toast.success(" deleted successfully");
+        toast.success("Subject deleted successfully");
         console.log(res);
         // after deleting the subject we need to update the list
         searchSubject(clas);
@@ -147,7 +117,7 @@ const AssignTeacher = () => {
       });
   };
 
-  const DataTable = subjectTeacher.map((option) => {
+  const DataTable = subjects.map((option) => {
     return (
       <tr className="border">
         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
@@ -156,9 +126,7 @@ const AssignTeacher = () => {
         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
           {option.classes}
         </td>
-        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-          {option.user}
-        </td>
+
         <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
           <button
             onClick={(e) => {
@@ -181,7 +149,7 @@ const AssignTeacher = () => {
         <div className="w-full max-w-md space-y-8">
           <div>
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-              Assigned Teacher to Subject
+              Create Subject
             </h2>
           </div>
           <form
@@ -216,58 +184,28 @@ const AssignTeacher = () => {
                   </option>
                 ))}
               </Select>
-            </div>{" "}
-            <div id="select">
-              <div className="mb-2 block">
-                <Label htmlFor="countries" value="Select Subjects" />
-              </div>
-              <Select
-                onChange={(e) => {
-                  console.log(e.target.value);
-                  const subjectId = e.target.value;
-                  const subject = subjectId;
-                  setSubject(subject);
-                }}
-                id="countries"
-                required={true}
-              >
-                <option value="">Select Subject</option>
-                {/* c */}
-                {/* check length of the subjects */}
-                {subjects.length > 0 ? (
-                  subjects.map((subject) => (
-                    <option key={subject.subject} value={subject.subject}>
-                      {subject.subject}
-                    </option>
-                  ))
-                ) : (
-                  <option value="">Nothing Found </option>
-                )}
-              </Select>
             </div>
-            <div id="select">
-              <div className="mb-2 block">
-                <Label htmlFor="countries" value="Select Teachers " />
+            <div className="-space-y-px rounded-md shadow-sm">
+              <div className="mb-4">
+                <label htmlFor="email-address" className="sr-only mb-4 mt-4">
+                  Class
+                </label>
+                <input
+                  id="email-address"
+                  name="Eneremail"
+                  type="text"
+                  autoComplete="email"
+                  required
+                  className="relative block w-full rounded-t-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="Enter Subject Name , eg : Biology"
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    setSubject(e.target.value);
+                  }}
+                />
               </div>
-              <Select
-                onChange={(e) => {
-                  console.log(e.target.value);
-                  const teacherId = e.target.value;
-                  const teacher = teacherId;
-                  setTeacher(teacher);
-                  console.log(teacher);
-                }}
-                id="countries"
-                required={true}
-              >
-                <option value="">Select Teachers </option>
-                {user.map((subject) => (
-                  <option key={subject._id} value={subject.name}>
-                    {subject.name}
-                  </option>
-                ))}
-              </Select>
             </div>
+
             <div>
               <button
                 type="submit"
@@ -276,7 +214,7 @@ const AssignTeacher = () => {
                 {/* <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                   <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
                 </span> */}
-                Assign Teacher
+                Create Subject
               </button>
             </div>
           </form>
@@ -284,7 +222,7 @@ const AssignTeacher = () => {
       </div>{" "}
       <div className="h-full w-full absolute">
         <div className="container mx-auto px-6">
-          <h1 className="text-3xl mt-10">Assigned Teachers</h1>
+          <h1 className="text-3xl mt-10">Subjects</h1>
           <div className="w-full h-64 rounded  flex justify-center">
             {/* Place your content here */}
             <div className="overflow-x-auto">
@@ -292,20 +230,20 @@ const AssignTeacher = () => {
                 <thead>
                   <tr>
                     <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
-                      Teacher Name
+                      Subject
                     </th>
 
                     <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
-                      Subject
+                      Assigned Class
                     </th>
                     <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
-                      Class
+                      Tools
                     </th>
                     <th className="px-4 py-2" />
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {subjectTeacher.length > 0 ? (
+                  {subjects.length > 0 ? (
                     DataTable
                   ) : (
                     <tr>
@@ -324,4 +262,4 @@ const AssignTeacher = () => {
   );
 };
 
-export default AssignTeacher;
+export default CreateSubject;

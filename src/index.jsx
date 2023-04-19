@@ -14,6 +14,7 @@ import CreateClass from "./pages/addClass";
 import CreateSection from "./pages/addSection";
 import CreateTimeSloot from "./pages/addTimeSlot";
 import AssignTeacher from "./pages/AssignTeacher";
+import CreateSubject from "./pages/addSubject";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "assign-teachers",
         element: <AssignTeacher />,
+      },
+      {
+        path: "create-subject",
+        element: <CreateSubject />,
       },
     ],
   },

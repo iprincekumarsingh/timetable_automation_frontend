@@ -70,7 +70,8 @@ const Profile = () => {
     if (!password) {
       return toast.error("Password is required");
     }
-    axios.put("auth/profile/password/update", JSON.stringify({ password }), {
+    axios
+      .put("auth/profile/password/update", JSON.stringify({ password }), {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + Cookie.get("access_token"),

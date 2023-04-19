@@ -46,6 +46,9 @@ const Layout = ({}) => {
                         <Link to={"create-section"}>Create Section</Link>
                       </Dropdown.Item>
                       <Dropdown.Item>
+                        <Link to={"create-subject"}>Create Subject</Link>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
                         <Link to={"assign-teachers"}>Assign Teachers</Link>
                       </Dropdown.Item>
                     </Dropdown>

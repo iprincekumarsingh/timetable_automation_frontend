@@ -67,6 +67,9 @@ const CreateClass = () => {
         .then((res) => {
           console.log(res);
           toast(res.data.message);
+          // update the list of classes
+
+
 
         })
         .catch((err) => {
