@@ -3,7 +3,7 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import Cookies from "js-cookie";
 
 import { Dropdown } from "flowbite-react";
-const Layout = ({}) => {
+const Layout = ({ }) => {
   return (
     <div className="">
       <Navbar fluid={true} rounded={true} className="self-center">
@@ -30,7 +30,7 @@ const Layout = ({}) => {
             <>
               {Cookies.get("role") === "admin" ? (
                 <>
-                  <NavLink>
+                  <NavLink Link="">
                     <Dropdown
                       arrowIcon={true}
                       inline={true}
@@ -53,7 +53,11 @@ const Layout = ({}) => {
                       </Dropdown.Item>
                     </Dropdown>
                   </NavLink>
-                  <Link to={"create-Account"}>Add teacher</Link>
+                
+                  <Navbar.Link href="/navbars">
+                <Link to={"create-Account"}> Add teacher</Link>
+              </Navbar.Link>
+                  {/* <Link to={"create-Account"}></Link> */}
                 </>
               ) : (
                 ""
